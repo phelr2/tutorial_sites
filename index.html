@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tutoriais Simples — Site Estático</title>
+
+    <!-- Fonts (system fallback used primarily) -->
+    <style>
+      :root {
+        --purple-50: #fbf8ff;
+        --purple-100: #f6f0ff;
+        --purple-300: #d7c4ff;
+        --purple-500: #7c3aed;
+        --purple-700: #5b21b6;
+        --bg: linear-gradient(180deg, var(--purple-50), #ffffff);
+        --maxw: 1100px;
+        --radius: 12px;
+        --shadow: 0 6px 18px rgba(20, 20, 40, 0.06);
+        --card-shadow: 0 6px 18px rgba(90, 50, 120, 0.06);
+      }
+
+      html,
+      body,
+      #root {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial;
+        background: var(--bg);
+        color: #24303b;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        line-height: 1.45;
+      }
+
+      .container {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 18px;
+      }
+      header {
+        background: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: 0 2px 8px rgba(20, 20, 40, 0.04);
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 18px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--purple-100);
+        color: var(--purple-700);
+        font-weight: 700;
+      }
+      nav.desktop {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      nav.desktop button {
+        background: transparent;
+        border: 0;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--purple-700);
+      }
+      nav.desktop button:hover {
+        background: #faf8ff;
+      }
+      .dropdown {
+        position: relative;
+      }
+      .menu-drop {
+        position: absolute;
+        right: 0;
+        top: 44px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: var(--card-shadow);
+        padding: 6px;
+        min-width: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .menu-drop button {
+        background: transparent;
+        border: 0;
+        text-align: left;
+        padding: 8px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .menu-drop button:hover {
+        background: #faf8ff;
+      }
+
+      .hero {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        padding: 34px 0;
+        flex-wrap: wrap;
+      }
+      .hero-left {
+        flex: 1;
+        min-width: 260px;
+      }
+      .hero-right {
+        flex: 1;
+        min-width: 260px;
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+      }
+      .cta {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .btn-primary {
+        background: var(--purple-500);
+        color: white;
+        border: 0;
+        padding: 10px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid rgba(124, 58, 237, 0.12);
+        color: var(--purple-700);
+        padding: 9px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      section.card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: var(--card-shadow);
+      }
+      .card h3 {
+        margin: 0 0 8px 0;
+        color: var(--purple-700);
+      }
+      .card ol {
+        margin: 0 0 8px 18px;
+        color: #39505b;
+      }
+      .hint {
+        background: #fff7;
+        border-left: 4px solid #f5e6ff;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        color: #6b7780;
+      }
+
+      .logos-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .small-logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      footer {
+        padding: 18px 0;
+        margin-top: 28px;
+        background: #fff;
+        border-top: 1px solid rgba(0, 0, 0, 0.03);
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      /* responsive */
+      @media (max-width: 840px) {
+        .topbar {
+          padding: 12px;
+        }
+        nav.desktop {
+          display: none;
+        }
+        .mobile-menu-btn {
+          display: inline-flex;
+        }
+      }
+      @media (min-width: 841px) {
+        .mobile-menu-btn {
+          display: none;
+        }
+      }
+
+      /* breadcrumbs */
+      .breadcrumb {
+        font-size: 0.95rem;
+        color: #64707a;
+        margin: 10px 0;
+      }
+      .illustr {
+        background: var(--purple-50);
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .logo-img {
+        width: 36px;
+        height: 36px;
+        display: inline-block;
+      }
+    </style>
+
+    <!-- React + ReactDOM + Babel from CDN (JSX support in the browser) -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Main App (JSX, transpiled by Babel in-browser) -->
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      // Image URLs (online). You can change these links if you prefer other images.
+      const IMG_SMARTPHONES =
+        'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=11b2e6f0b0b6de73a3f6e0a5dfd3edbd';
+      const IMG_PEOPLE =
+        'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=4b6d0a9e6c3f3b919b1f44a4b7a6c8b7';
+      // Social logo links (public)
+      const LOGO_X =
+        'https://upload.wikimedia.org/wikipedia/commons/2/2f/X_logo.png'; // X logo (Twitter / X)
+      const LOGO_WHATSAPP =
+        'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg';
+      const LOGO_INSTAGRAM =
+        'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg';
+      const LOGO_FACEBOOK =
+        'https://upload.wikimedia.org/wikipedia/commons/4/44/Facebook_Logo.png';
+
+      const MENU = [
+        { key: 'home', label: 'Início' },
+        {
+          key: 'redes',
+          label: 'Redes sociais',
+          dropdown: [
+            { key: 'whatsapp', label: 'WhatsApp' },
+            { key: 'instagram', label: 'Instagram' },
+            { key: 'facebook', label: 'Facebook' },
+            { key: 'x', label: 'Twitter / X' },
+          ],
+        },
+        { key: 'seguranca', label: 'Segurança' },
+        { key: 'ia', label: 'Inteligência Artificial' },
+      ];
+
+      function TopNav({ onNavigate, current }) {
+        const [openDrop, setOpenDrop] = useState(false);
+        const [openMobile, setOpenMobile] = useState(false);
+
+        useEffect(() => {
+          if (openMobile) document.body.style.overflow = 'hidden';
+          else document.body.style.overflow = '';
+        }, [openMobile]);
+
+        return (
+          <header>
+            <div className='container topbar'>
+              <div className='brand'>
+                <div className='logo'>T</div>
+                <div>
+                  <div style={{ fontWeight: 700, color: 'var(--purple-700)' }}>
+                    Tutoriais Simples
+                  </div>
+                  <div style={{ fontSize: 12, color: '#6b7780' }}>
+                    conteúdo claro para quem está começando
+                  </div>
+                </div>
+              </div>
+
+              <nav className='desktop'>
+                {MENU.map((m) =>
+                  m.dropdown ? (
+                    <div className='dropdown' key={m.key}>
+                      <button
+                        onClick={() => setOpenDrop((s) => !s)}
+                        aria-haspopup
+                      >
+                        {m.label} ▾
+                      </button>
+                      {openDrop && (
+                        <div
+                          className='menu-drop'
+                          role='menu'
+                          onMouseLeave={() => setOpenDrop(false)}
+                        >
+                          {m.dropdown.map((d) => (
+                            <button
+                              key={d.key}
+                              onClick={() => {
+                                onNavigate(d.key);
+                                setOpenDrop(false);
+                              }}
+                            >
+                              {d.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <button key={m.key} onClick={() => onNavigate(m.key)}>
+                      {m.label}
+                    </button>
+                  )
+                )}
+              </nav>
+
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <button
+                  className='mobile-menu-btn'
+                  onClick={() => setOpenMobile((s) => !s)}
+                  aria-label='Abrir menu'
+                >
+                  ☰
+                </button>
+              </div>
+
+              {openMobile && (
+                <div
+                  style={{
+                    position: 'fixed',
+                    right: 12,
+                    top: 70,
+                    background: '#fff',
+                    borderRadius: 12,
+                    boxShadow: '0 12px 32px rgba(0,0,0,0.12)',
+                    zIndex: 120,
+                    padding: 12,
+                    width: 260,
+                  }}
+                >
+                  {MENU.map((m) =>
+                    m.dropdown ? (
+                      <details key={m.key} style={{ marginBottom: 6 }}>
+                        <summary
+                          style={{
+                            cursor: 'pointer',
+                            padding: 8,
+                            borderRadius: 8,
+                          }}
+                        >
+                          {m.label}
+                        </summary>
+                        <div
+                          style={{
+                            paddingLeft: 8,
+                            marginTop: 6,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 6,
+                          }}
+                        >
+                          {m.dropdown.map((d) => (
+                            <button
+                              key={d.key}
+                              onClick={() => {
+                                onNavigate(d.key);
+                                setOpenMobile(false);
+                              }}
+                            >
+                              {d.label}
+                            </button>
+                          ))}
+                        </div>
+                      </details>
+                    ) : (
+                      <div key={m.key}>
+                        <button
+                          style={{ width: '100%', textAlign: 'left' }}
+                          onClick={() => {
+                            onNavigate(m.key);
+                            setOpenMobile(false);
+                          }}
+                        >
+                          {m.label}
+                        </button>
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+          </header>
+        );
+      }
+
+      function Hero({ onNavigate }) {
+        return (
+          <section className='container hero' aria-label='hero'>
+            <div className='hero-left'>
+              <h1
+                style={{ fontSize: 28, margin: 0, color: 'var(--purple-700)' }}
+              >
+                Bem-vindo aos Tutoriais Simples
+              </h1>
+              <p style={{ color: '#47565a' }}>
+                Passo a passo claro, imagens e exemplos práticos pensados para
+                quem está começando com tecnologia.
+              </p>
+
+              <div className='cta'>
+                <button
+                  className='btn-primary'
+                  onClick={() => onNavigate('seguranca')}
+                >
+                  Começar: Segurança
+                </button>
+                <button className='btn-ghost' onClick={() => onNavigate('ia')}>
+                  Começar: IA
+                </button>
+              </div>
+
+              <div style={{ marginTop: 12, fontSize: 13, color: '#6b7780' }}>
+                Use o menu no topo para navegar por tutoriais de redes sociais.
+              </div>
+            </div>
+
+            <div className='hero-right'>
+              <div className='illustr card' style={{ maxWidth: 520 }}>
+                <img
+                  src={IMG_SMARTPHONES}
+                  alt='Smartphones'
+                  style={{ width: '100%', borderRadius: 8, display: 'block' }}
+                />
+              </div>
+
+              <div className='illustr card' style={{ maxWidth: 520 }}>
+                <img
+                  src={IMG_PEOPLE}
+                  alt='Pessoas usando'
+                  style={{ width: '100%', borderRadius: 8, display: 'block' }}
+                />
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Breadcrumb({ current }) {
+        return (
+          <div className='container breadcrumb'>
+            Você está em:{' '}
+            <strong style={{ color: 'var(--purple-700)' }}>{current}</strong>
+          </div>
+        );
+      }
+
+      function Card({ title, steps, tips }) {
+        return (
+          <article className='card'>
+            <h3>{title}</h3>
+            <ol>
+              {steps.map((s, i) => (
+                <li key={i} style={{ marginBottom: 6 }}>
+                  {s}
+                </li>
+              ))}
+            </ol>
+            {tips && (
+              <div className='hint'>
+                <strong>Dica: </strong>
+                {tips}
+              </div>
+            )}
+          </article>
+        );
+      }
+
+      function Content({ route }) {
+        const pages = {
+          home: (
+            <>
+              <Hero onNavigate={() => {}} />
+              <section className='container card-grid' aria-label='cards'>
+                <div className='card'>
+                  <h3 style={{ color: 'var(--purple-700)' }}>
+                    Segurança básica
+                  </h3>
+                  <ol>
+                    <li>Use senhas fortes e diferentes para cada serviço.</li>
+                    <li>
+                      Ative autenticação em duas etapas sempre que possível.
+                    </li>
+                    <li>Desconfie de links e pedidos de códigos.</li>
+                  </ol>
+                  <div className='hint'>
+                    Anote senhas importantes em um gerenciador ou em papel
+                    guardado.
+                  </div>
+                </div>
+
+                <div className='card'>
+                  <h3 style={{ color: 'var(--purple-700)' }}>Redes sociais</h3>
+                  <ol>
+                    <li>
+                      Aplicativos como WhatsApp, Instagram e X servem para
+                      compartilhar e comunicar.
+                    </li>
+                    <li>
+                      Cada rede tem um público e propósito: algumas são mais
+                      visuais; outras, mais de notícias.
+                    </li>
+                    <li>Ajuste privacidade ao criar sua conta.</li>
+                  </ol>
+                </div>
+
+                <div className='card'>
+                  <h3 style={{ color: 'var(--purple-700)' }}>
+                    Inteligência Artificial
+                  </h3>
+                  <ol>
+                    <li>
+                      IA ajuda a resumir textos, organizar fotos e sugerir
+                      ideias.
+                    </li>
+                    <li>
+                      Use prompts claros e verifique informações importantes em
+                      fontes confiáveis.
+                    </li>
+                    <li>IA é uma ferramenta: útil, porém imperfeita.</li>
+                  </ol>
+                </div>
+              </section>
+            </>
+          ),
+
+          whatsapp: (
+            <section className='container'>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <img
+                  src={LOGO_WHATSAPP}
+                  alt='WhatsApp'
+                  className='logo-img'
+                  style={{ width: 42, height: 42 }}
+                />
+                <h2 style={{ margin: 0, color: 'var(--purple-700)' }}>
+                  WhatsApp
+                </h2>
+              </div>
+
+              <div className='card' style={{ marginTop: 12 }}>
+                <h3>O que é e para que serve</h3>
+                <p>
+                  O WhatsApp é um aplicativo de mensagens muito usado para
+                  conversas do dia a dia, ligações de voz/vídeo, grupos
+                  familiares, comunitários e para contatos de pequenos negócios.
+                  Tem forte presença entre adultos e também muitos jovens — é
+                  uma das ferramentas de comunicação mais populares globalmente.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 12 }} className='card-grid'>
+                <Card
+                  title='Enviar várias fotos de uma vez (Android / iOS)'
+                  steps={[
+                    "Abra a conversa e toque em anexar (ícone de clipe) ou no '+' (iOS).",
+                    "Escolha 'Galeria' / 'Fotos' e selecione múltiplas imagens tocando nelas.",
+                    'Ajuste (recortar/legendas) e toque em enviar.',
+                  ]}
+                  tips='No iOS você pode tocar e arrastar para marcar várias imagens; no Android normalmente há uma opção de selecionar múltiplos itens.'
+                />
+
+                <Card
+                  title='Enviar fotos e texto ao mesmo tempo'
+                  steps={[
+                    'Escolha as fotos que deseja enviar.',
+                    'No campo de legenda (aparece após a seleção), escreva o texto que quer acompanhar as fotos.',
+                    'Toque em enviar — fotos + legenda serão enviadas juntas.',
+                  ]}
+                  tips='Se quiser, marque contatos na legenda com @ (se estiverem na lista de contatos).'
+                />
+
+                <Card
+                  title='Conectar WhatsApp ao computador (WhatsApp Web / Desktop)'
+                  steps={[
+                    'No computador, abra web.whatsapp.com ou baixe o app Desktop.',
+                    "No celular: WhatsApp → Menu → 'Dispositivos vinculados' → 'Vincular um dispositivo'.",
+                    'Aponte a câmera do celular para o QR code que aparece no PC.',
+                  ]}
+                  tips='O celular precisa ter conexão com a internet para sincronizar mensagens.'
+                />
+
+                <Card
+                  title='Armazenar dados e evitar consumir memória'
+                  steps={[
+                    'Ative backup para Google Drive (Android) ou iCloud (iOS) para salvar conversas importantes.',
+                    'Em Configurações → Armazenamento e dados → Gerenciar armazenamento, exclua mídias pesadas.',
+                    'Desative download automático de mídia para economizar espaço.',
+                  ]}
+                  tips='Faça limpeza periódica e mantenha apenas o que é importante no aparelho.'
+                />
+
+                <Card
+                  title='Criar e gerenciar grupos'
+                  steps={[
+                    'Novo grupo → selecione contatos → escolha nome e foto do grupo.',
+                    'Como administrador, gerencie participantes e defina quem pode editar informações.',
+                    'Use descrição para deixar regras claras.',
+                  ]}
+                  tips='Defina regras simples e evite tópicos sensíveis em grupos públicos.'
+                />
+              </div>
+            </section>
+          ),
+
+          instagram: (
+            <section className='container'>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <img
+                  src={LOGO_INSTAGRAM}
+                  alt='Instagram'
+                  className='logo-img'
+                />
+                <h2 style={{ margin: 0, color: 'var(--purple-700)' }}>
+                  Instagram
+                </h2>
+              </div>
+
+              <div className='card' style={{ marginTop: 12 }}>
+                <h3>O que é e para que serve</h3>
+                <p>
+                  Rede social para compartilhar fotos e vídeos curtos (feed,
+                  Stories, Reels). Tem grande adesão entre públicos jovens e
+                  adultos jovens, usada tanto para socializar quanto para
+                  divulgar pequenos negócios e hobbies.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 12 }} className='card-grid'>
+                <Card
+                  title='Editar e postar fotos'
+                  steps={[
+                    "Toque em '+' e selecione a foto.",
+                    'Aplique filtros ou ajuste brilho/contraste/corte.',
+                    'Adicione legenda e publique.',
+                  ]}
+                  tips='Fotos nítidas e uma legenda simples costumam ter melhor resposta.'
+                />
+
+                <Card
+                  title='Postar Stories (música, figurinhas, efeitos)'
+                  steps={[
+                    'Deslize para a direita na tela inicial ou toque em sua foto.',
+                    'Tire a foto/vídeo ou escolha da galeria.',
+                    "Use o ícone de stickers para figurinhas e o ícone de música para adicionar uma faixa. Publique com 'Seu story'.",
+                  ]}
+                  tips='Stories com música e movimento costumam ser mais vistos.'
+                />
+
+                <Card
+                  title='Ajustar o algoritmo para ver mais vídeos sobre um assunto'
+                  steps={[
+                    'Interaja com vídeos curtindo, salvando e seguindo criadores.',
+                    'Use a busca por hashtags e siga perfis que postam conteúdo do tema.',
+                    'Salve e comente conteúdos que você quer ver mais.',
+                  ]}
+                  tips='Maior interação envia sinais ao algoritmo sobre seus interesses.'
+                />
+
+                <Card
+                  title='Salvar uma foto (bandeirinha) — para que serve'
+                  steps={[
+                    'Toque no ícone de salvar (bandeirinha) numa publicação.',
+                    "Acesse em seu perfil → Menu → 'Salvos' para ver o conteúdo guardado.",
+                    'Organize em coleções para facilitar encontrar depois.',
+                  ]}
+                  tips='Use para guardar receitas, ideias e conteúdos educativos.'
+                />
+              </div>
+            </section>
+          ),
+
+          facebook: (
+            <section className='container'>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <img src={LOGO_FACEBOOK} alt='Facebook' className='logo-img' />
+                <h2 style={{ margin: 0, color: 'var(--purple-700)' }}>
+                  Facebook
+                </h2>
+              </div>
+
+              <div className='card' style={{ marginTop: 12 }}>
+                <h3>O que é e para que serve</h3>
+                <p>
+                  Rede ampla usada para conectar amigos, família, participar de
+                  grupos, criar eventos e também para negócios locais. Tem um
+                  público variado, incluindo faixas etárias mais maduras.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 12 }} className='card-grid'>
+                <Card
+                  title='Como postar fotos'
+                  steps={[
+                    "No feed, toque em 'No que você está pensando?'.",
+                    'Escolha foto/vídeo, selecione a imagem e escreva uma legenda.',
+                    'Escolha público (Amigos / Público / Só eu) e publique.',
+                  ]}
+                  tips='Escolha público de acordo com o conteúdo antes de publicar.'
+                />
+
+                <Card
+                  title='Procurar grupos de interesse'
+                  steps={[
+                    "Use a barra de busca e filtre por 'Grupos'.",
+                    'Leia a descrição e regras do grupo antes de solicitar entrada.',
+                    'Observe publicações recentes para ver se o grupo é ativo.',
+                  ]}
+                  tips='Grupos locais são bons para trocar serviços e informações regionais.'
+                />
+
+                <Card
+                  title='Segurança no Facebook'
+                  steps={[
+                    'Não aceite solicitações de pessoas desconhecidas.',
+                    'Revise configurações de privacidade do perfil e publicações.',
+                    'Desconfie de links e pedidos de dados ou dinheiro.',
+                  ]}
+                  tips='Ative autenticação em duas etapas para proteger sua conta.'
+                />
+
+                <Card
+                  title='Outras funcionalidades'
+                  steps={[
+                    'Eventos: participe ou crie eventos locais.',
+                    'Marketplace: comprar/vender itens locais (verifique reputação).',
+                    'Páginas: siga fontes oficiais para notícias e serviços.',
+                  ]}
+                  tips='Verifique sempre a fonte antes de compartilhar notícias.'
+                />
+              </div>
+            </section>
+          ),
+
+          x: (
+            <section className='container'>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <img
+                  src={LOGO_X}
+                  alt='X / Twitter'
+                  className='logo-img'
+                  style={{ width: 36, height: 36 }}
+                />
+                <h2 style={{ margin: 0, color: 'var(--purple-700)' }}>
+                  Twitter / X
+                </h2>
+              </div>
+
+              <div className='card' style={{ marginTop: 12 }}>
+                <h3>O que é e para que serve</h3>
+                <p>
+                  Conhecido anteriormente como Twitter, o X é uma plataforma de
+                  micro-posts ideal para acompanhar notícias rápidas, debates e
+                  figuras públicas. É amplamente usada por quem busca
+                  atualizações em tempo real e por comunidades focadas em
+                  tópicos específicos.
+                </p>
+              </div>
+
+              <div style={{ marginTop: 12 }} className='card-grid'>
+                <Card
+                  title='Como fazer um post (tweet/X post)'
+                  steps={[
+                    'Toque no botão para escrever (ícone de criar).',
+                    'Escreva a mensagem; adicione imagens ou links se desejar.',
+                    'Toque em publicar.',
+                  ]}
+                  tips='Posts curtos e diretos costumam atingir mais pessoas.'
+                />
+
+                <Card
+                  title='Retwitar / compartilhar'
+                  steps={[
+                    'Toque no ícone de retweet/compartilhar abaixo do post.',
+                    'Escolha entre retweetar diretamente ou retweetar com comentário.',
+                    'Comente para adicionar contexto ao compartilhar.',
+                  ]}
+                  tips='Retweets com comentário permitem você explicar por que está compartilhando.'
+                />
+
+                <Card
+                  title='Salvar posts interessantes'
+                  steps={[
+                    'Use a opção de salvar/colar links em notas para guardar conteúdo.',
+                    "Algumas versões do X têm 'coleções' ou 'salvos' para organizar posts.",
+                  ]}
+                  tips='Coleções ajudam a agrupar posts por tema (ex.: receitas, notícias).'
+                />
+
+                <Card
+                  title='Buscar notícias e pessoas para seguir'
+                  steps={[
+                    'Use a busca com hashtags e palavras-chave.',
+                    'Siga jornalistas e fontes oficiais para ter um feed de notícias confiável.',
+                    'Crie listas temáticas para acompanhar assuntos sem misturar seu feed principal.',
+                  ]}
+                  tips='Verifique a credibilidade dos perfis antes de tomar a informação como verdade.'
+                />
+
+                <Card
+                  title='Melhorar o algoritmo para ver conteúdo relevante'
+                  steps={[
+                    'Interaja com conteúdos que lhe interessam (curtir, responder, compartilhar).',
+                    'Siga contas que produzem o conteúdo que você quer ver.',
+                    'Use buscas e salve posts para sinalizar seus interesses à plataforma.',
+                  ]}
+                  tips='Menos interação com conteúdo irrelevante ajuda o algoritmo a aprender suas preferências.'
+                />
+              </div>
+            </section>
+          ),
+
+          seguranca: (
+            <section className='container'>
+              <h2 style={{ color: 'var(--purple-700)' }}>Segurança</h2>
+
+              <div style={{ marginTop: 12 }} className='card-grid'>
+                <Card
+                  title='Senhas seguras'
+                  steps={[
+                    'Use senhas longas (12+ caracteres) ou frases fáceis de lembrar.',
+                    'Não reutilize senha entre serviços.',
+                    'Considere um gerenciador de senhas confiável.',
+                  ]}
+                  tips='Autenticação em dois fatores é uma camada extra importante.'
+                />
+
+                <Card
+                  title='Evitar golpes em redes sociais'
+                  steps={[
+                    'Desconfie de pedidos de dinheiro ou códigos por mensagem.',
+                    'Não clique em links estranhos sem verificar a origem.',
+                    'Confirme pedidos urgentes por outro canal (telefone/pessoalmente).',
+                  ]}
+                  tips='Golpes comuns pedem pressa — pare e verifique antes de agir.'
+                />
+
+                <Card
+                  title='Como saber se um link é confiável'
+                  steps={[
+                    'Vá com calma: passe o mouse para ver o endereço (no desktop).',
+                    'Verifique se o domínio é o correto (sem erros de digitação).',
+                    'Use ferramentas de checagem quando estiver em dúvida.',
+                  ]}
+                  tips='Se algo parece errado, não clique — pesquise o link ou pergunte a alguém de confiança.'
+                />
+
+                <Card
+                  title='Desconfiar de pessoas se passando por conhecidos'
+                  steps={[
+                    'Confirme pedido por outro meio (ligação, encontro).',
+                    'Analise o tom da mensagem e se há pedidos incomuns.',
+                    'Perfis novos com poucas publicações podem ser falsos.',
+                  ]}
+                  tips='Se alguém pedir transferência, confirme presencialmente ou por chamada.'
+                />
+
+                <Card
+                  title='Cuidados antes de transferências bancárias'
+                  steps={[
+                    'Confirme dados do destinatário por outro canal.',
+                    'Use apenas canais oficiais do banco para pagamentos.',
+                    'Não compartilhe códigos ou senhas recebidas por SMS.',
+                  ]}
+                  tips='Em caso de dúvida, contate o banco antes de enviar qualquer quantia.'
+                />
+              </div>
+            </section>
+          ),
+
+          ia: (
+            <section className='container'>
+              <h2 style={{ color: 'var(--purple-700)' }}>
+                Inteligência Artificial
+              </h2>
+
+              <div style={{ marginTop: 12 }} className='card'>
+                <h3>Resumo rápido de IAs populares</h3>
+                <ul>
+                  <li>
+                    <strong>Copilot</strong> — assistente para programadores
+                    (ajuda a escrever código).
+                  </li>
+                  <li>
+                    <strong>ChatGPT</strong> — modelo de linguagem que conversa,
+                    resume textos e gera ideias.
+                  </li>
+                  <li>
+                    <strong>Gemini</strong> — família de modelos com capacidades
+                    multimodais (texto e imagem em alguns casos).
+                  </li>
+                  <li>
+                    <strong>Alexa / Siri</strong> — assistentes por voz para
+                    tarefas diárias (definir lembretes, tocar músicas).
+                  </li>
+                </ul>
+              </div>
+
+              <div style={{ marginTop: 12 }} className='card-grid'>
+                <Card
+                  title='O que são IAs e como ajudam'
+                  steps={[
+                    'Programas que identificam padrões nos dados e geram respostas ou ações.',
+                    'Podem resumir textos, organizar fotos, sugerir receitas e automatizar tarefas.',
+                    'Devem ser usadas como apoio; verifique sempre informações importantes.',
+                  ]}
+                  tips='IA aumenta produtividade quando você fornece instruções claras.'
+                />
+
+                <Card
+                  title='Funcionalidades e exemplos'
+                  steps={[
+                    'Ajudar a aprender uma língua (corrigir e praticar).',
+                    'Organizar fotos e documentos por tema ou pessoa.',
+                    'Sugerir receitas com ingredientes que você tem em casa.',
+                    'Resumir e melhorar textos para clareza ou formato.',
+                  ]}
+                  tips='Peça sempre fontes quando a informação for relevante.'
+                />
+
+                <Card
+                  title='Como criar um bom prompt'
+                  steps={[
+                    'Seja claro e objetivo: diga formato, tamanho e tom desejado.',
+                    "Dê contexto: público e nível de detalhe (ex.: 'explique para um iniciante').",
+                    'Use exemplos para guiar o estilo desejado.',
+                  ]}
+                  tips="Exemplo: 'Haja como um professor de inglês e explique o presente simples para uma criança de 5 anos.'"
+                />
+
+                <Card
+                  title='Fazer a IA se comportar como você quer'
+                  steps={[
+                    "Comece com 'Haja como...' ou 'Responda como se fosse...'.",
+                    "Defina limites: 'resuma em 3 frases' ou 'use palavras simples'.",
+                    'Se necessário, peça para refinar a resposta informando o que ajustar.',
+                  ]}
+                  tips='Iterar pedindo versões melhores costuma alinhar o resultado ao esperado.'
+                />
+
+                <div
+                  className='card'
+                  style={{
+                    background: '#fff7e6',
+                    borderLeft: '4px solid #ffd27a',
+                  }}
+                >
+                  <strong>Aviso:</strong>
+                  <p style={{ marginTop: 8 }}>
+                    IAs podem errar. Não compartilhe dados sensíveis (senhas,
+                    documentos, dados bancários) em prompts e verifique fatos
+                    importantes em fontes confiáveis.
+                  </p>
+                </div>
+              </div>
+            </section>
+          ),
+        };
+
+        return pages[route] || pages.home;
+      }
+
+      function App() {
+        const [route, setRoute] = useState('home');
+
+        useEffect(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, [route]);
+
+        const labels = {
+          home: 'Início',
+          whatsapp: 'Redes sociais / WhatsApp',
+          instagram: 'Redes sociais / Instagram',
+          facebook: 'Redes sociais / Facebook',
+          x: 'Redes sociais / Twitter (X)',
+          seguranca: 'Segurança',
+          ia: 'Inteligência Artificial',
+        };
+
+        return (
+          <div style={{ minHeight: '100%' }}>
+            <TopNav onNavigate={setRoute} current={route} />
+            <main>
+              <Breadcrumb current={labels[route] || 'Início'} />
+              <Content route={route} />
+            </main>
+
+            <footer>
+              <div className='container footer-inner'>
+                <div style={{ fontSize: 13, color: '#6b7780' }}>
+                  © {new Date().getFullYear()} Tutoriais Simples — Projeto
+                  estático
+                </div>
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                  <div
+                    style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+                  >
+                    <div
+                      style={{
+                        width: 10,
+                        height: 10,
+                        background: 'var(--purple-500)',
+                        borderRadius: 6,
+                      }}
+                    ></div>
+                    <div style={{ fontSize: 13, color: '#6b7780' }}>
+                      Versão estática
+                    </div>
+                  </div>
+                  <button
+                    className='btn-ghost'
+                    onClick={() =>
+                      alert(
+                        'Abra este arquivo HTML no navegador do seu computador ou celular. Para usar offline, salve o arquivo localmente e abra-o sem depender de internet para imagens — porém, nesse arquivo as imagens são carregadas de links online.'
+                      )
+                    }
+                  >
+                    Como usar localmente
+                  </button>
+                </div>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
